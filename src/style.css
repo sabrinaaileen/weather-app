@@ -3,7 +3,20 @@ body {
 }
 .searchCity {
   position: relative;
-  right: -180px;
+  right: -140px;
+}
+#button {
+  display: block;
+  margin: 0 auto;
+  margin-right: 0px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+  padding: 3px;
+  color: #128494;
+  background-color: aliceblue;
+  border: 0px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .dateToday {
@@ -31,7 +44,7 @@ h1 {
   margin: 0 auto;
   background-color: #128494;
   line-height: 30px;
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 800;
 }
 h2 {

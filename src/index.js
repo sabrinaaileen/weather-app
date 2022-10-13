@@ -34,30 +34,46 @@ currentDate();
 
 function searchCity(event) {
   event.preventDefault();
-  let city = document.querySelector(".searchCity");
-
-  let apiKey = "2b6fdad0cbd018949c50c70f72250726";
-  let units = "metric";
-  let apiEndpoint = "https://api.openweathermap.org/data/2.5/weather?";
-  let apiUrl = `${apiEndpoint}q=Munich&appid=${apiKey}&units=${units}`;
-
-  console.log(city.value);
-  let changeCity = document.querySelector("h1");
-  changeCity.innerHTML = city.value;
-  axios.get(apiUrl).then([showTemperature], [showCelsius], [showFahrenheit]);
+  let city = document.querySelector(".searchCity").value;
+  search(city);
 }
+
 let searching = document.querySelector("#search-form");
 searching.addEventListener("submit", searchCity);
 
-function showTemperature(response) {
+function changeHeading(response) {
+  let changeCity = document.querySelector("h1");
+  changeCity.innerHTML = response.data.name;
   let tempCity = Math.round(response.data.main.temp);
   console.log(tempCity);
   let actualTemp = document.querySelector(".actualTemperature");
   actualTemp.innerHTML = tempCity;
 }
 
-function showCelsius(response) {
-  let tempCelsius = Math.round(response.data.main.temp);
+function search(city) {
+  let apiKey = "2b6fdad0cbd018949c50c70f72250726";
+  let units = "metric";
+  let apiEndpoint = "https://api.openweathermap.org/data/2.5/weather?";
+  let apiUrl = `${apiEndpoint}q=${city}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(changeHeading);
+}
+function searchCurrentposition(position) {
+  let apiKey = "2b6fdad0cbd018949c50c70f72250726";
+  let units = "metric";
+  let apiEndpoint = "https://api.openweathermap.org/data/2.5/weather?";
+  let apiUrl = `${apiEndpoint}lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(changeHeading);
+}
+function catchLocation(event) {
+  event.preventDefault();
+  navigator.geolocation.getCurrentPosition(searchCurrentposition);
+}
+
+let currentButton = document.querySelector("#button");
+currentButton.addEventListener("click", catchLocation);
+
+function showCelsius() {
+  let tempCelsius = "19";
   let actualTemp = document.querySelector(".actualTemperature");
   actualTemp.innerHTML = tempCelsius;
 }
@@ -65,8 +81,8 @@ function showCelsius(response) {
 let getCelsius = document.querySelector(".celsius");
 getCelsius.addEventListener("click", showCelsius);
 
-function showFahrenheit(response) {
-  let tempFahrenheit = Math.round((response.data.main.temp * 9) / 5 + 32);
+function showFahrenheit() {
+  let tempFahrenheit = "66";
   console.log(tempFahrenheit);
   let actualTemp = document.querySelector(".actualTemperature");
   actualTemp.innerHTML = tempFahrenheit;
